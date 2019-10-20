@@ -1,0 +1,91 @@
+<script>
+    // array
+    // 참조 타입은 상수형태를 사용 가능
+    const str = [];
+    str.push("a");
+    str.push("b");
+    str.push("c");
+
+    // 기본 for 문 사용 법
+    for (let i = 0; i < str.length; i++) {
+        console.log(str[i]);
+    }
+
+    // in은 index가 나옴
+    for (var i in str){
+        console.log(str[i]);
+    }
+
+    // of value가 나옴
+    for (var v of str){
+        console.log(v);
+    }
+
+    // forEach
+    str.forEach((temp,i,a) => {
+        console.log(temp);
+        console.log(i);
+        console.log(a);
+    });
+
+    // array 사용법
+    var arr = [1,2,3,4,5];
+    var arr1 = arr.map(function(v) {
+        return v * 10;
+    });
+    console.log(arr);
+    console.log(arr1);
+    var arr2 = arr.filter(function (v) {
+        return v <= 3;
+    });
+    console.log(arr2)
+
+    var result = {
+        student : [
+            {
+                name : "홍1길동",
+                kor : 95,
+                eng : 80,
+                math : 85
+            },
+
+            {
+                name : "홍2길동",
+                kor : 90,
+                eng : 20,
+                math : 45
+            },
+
+            {
+                name : "홍3길동",
+                kor : 25,
+                eng : 10,
+                math : 95
+            }
+        ]
+    }
+
+    var korOver = result.student.filter(function(v) {
+        return v.kor >= 80;
+    })
+
+    console.log(korOver);
+
+    console.log(Object.entries(result));
+    console.log(Object.entries(result.student));
+    for (var [k,v] of Object.entries(result.student)) {
+        console.log(k,v);        
+    }
+    for (var [k,v] of Object.entries(result.student[0])) {
+        console.log(k,v);        
+    }
+    for (var [k,v] of Object.entries(result.student[1])) {
+        console.log(k,v);        
+    }
+    for (var k of Object.keys(result.student[1])) {
+        console.log(k);        
+    }
+    for (var v of Object.values(result.student[1])) {
+        console.log(v);        
+    }
+</script>
