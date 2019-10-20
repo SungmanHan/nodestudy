@@ -1,5 +1,9 @@
 const express = require("express");
 const app = express();
+const bodyParser = require("body-parser");
+
+// 사용자 지정 모듈
+const util = require('./modules/util')
 
 // start server
 app.listen(3000, function() {
@@ -13,6 +17,10 @@ app.listen(3000, function() {
 //----------------------------------------------------------------------------
 // 정적 Route
 app.use("/",express.static("./public"));
+// app에서 x-www-form-rul/encoded 를 사용안하겠다. 옛날 방식
+app.use(bodyParser.urlencoded({extended:false}));
+// json형태로 받겠다
+//app.use(bodyParser.json());
 
 // 동적 Route
 // /hello로 요청이 들어오면 req ,res로 보냄
@@ -47,7 +55,7 @@ app.get(["/books","/books/:id"],(req,res) =>{
 // post
 //----------------------------------------------------------------------------
 app.post("/join-save",(req,res)=>{
-    res.send("저장!");
+    var userid = req.body.userid;
+    var username = req.body.username;
+    res.send(`<p>저장정보 </br> ID : ${userid} </br> 이름 : ${username} </br> 등록시간 : ${util.isoDate(new Date())} </p>`);
 });
-
-
