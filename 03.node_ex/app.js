@@ -2,10 +2,15 @@ const express = require("express");
 const app = express();
 const port = 3000;
 
+const users = [
+    {id:1, name:'홍길동',age:25},
+    {id:2, name:'김길동',age:26},
+    {id:3, name:'최길동',age:27},
+];
+
 app.listen(port,() => { 
     console.log("http://127.0.0.1:"+port);
 });
-
 
 // static root setting
 app.use("/",express.static("./public"));
@@ -24,12 +29,6 @@ app.get(["/pug","/pug/:type"],(req,res)=>{
     // alt + shift 방향키 아래 = 한 줄 복사
     let titleChk = req.query.titleChk;
     let type = req.params.type;
-    
-    const users = [
-        {id:1, name:'홍길동',age:25},
-        {id:2, name:'김길동',age:26},
-        {id:3, name:'최길동',age:27},
-    ];
     //const vals = {name:name};
     const vals = {name,title:"pug 연습!",users,titleChk}; //es6에서 요약 가능
     console.log(titleChk)
@@ -39,6 +38,23 @@ app.get(["/pug","/pug/:type"],(req,res)=>{
             break;
         default:
             res.render("block",vals);
+            break;
+    }
+});
+
+app.get("/api/:type",(req,res) => {
+    let type = req.params.type;
+    
+    if (!type) type = "list";
+
+    switch (type) {
+        case "list":
+            res.json({
+                result : users
+            });
+            break;
+        default:
+
             break;
     }
 });

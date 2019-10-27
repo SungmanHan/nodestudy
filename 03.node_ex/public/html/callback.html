@@ -1,0 +1,55 @@
+<script>
+
+const users = [
+            {id:1, name:'홍길동',age:25},
+            {id:2, name:'김길동',age:26},
+            {id:3, name:'최길동',age:27}
+        ];
+
+const findeAge = (id,cd) =>{
+    let result;
+    users.forEach((item,key) => {
+        result = item.id == id ? item.age:null;
+        result ? cd(null,result):cd(500,"Failed");
+    });
+}
+
+const findeUser = (name,cd) =>{
+    let result = users.filter(item => item.name == name);
+    result.length > 0 ? cd(null,result): cd("failed");
+}
+
+const testtt = (err,result) => {
+    if(err) console.log(err);
+    else{
+        if(result) findeAge(result[0].id, (err,result)=>{
+            if(err) console.log(err);
+            else{
+                console.log(result);
+            }
+        });
+    }
+};
+
+findeUser("홍길동",testtt);
+
+
+
+
+
+function firstFn() {
+    secondFn();
+    console.log("First");
+}
+
+function secondFn() {
+    thirdFn();
+    console.log("Second");
+}
+
+function thirdFn() {
+    console.log("Third");
+}
+
+firstFn();
+</script>

@@ -1,0 +1,36 @@
+<script>
+
+    const users = [
+                {id:1, name:'홍길동',age:25},
+                {id:2, name:'김길동',age:26},
+                {id:3, name:'최길동',age:27}
+            ];
+    
+    const findUser = async (name) =>{
+        let result = await users.filter(item => item.name == name);
+        return result;
+    };
+
+    /*
+    const findAge = (id) =>{
+
+        const result = 0;
+
+        users.forEach((item,key) => {
+            result = item.id == id ? item.age:null
+        });
+
+        return result;
+    };
+    //()(); 즉시 실행 함수*/
+
+    (async () => {
+        const result = await findUser("홍길동");
+        console.log(result);
+
+        result = await findAge(result[0].id);
+        console.log(result);
+    })();
+
+    console.log("tsete111111")
+</script>
