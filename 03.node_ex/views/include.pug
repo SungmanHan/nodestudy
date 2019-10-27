@@ -1,9 +1,7 @@
-html
-    head
-        title= title
-        <!-- 합쳐지고 최소화된 최신 CSS -->
-        link(rel="stylesheet", href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css")
+html(lang="ko")
+    include ./inc/header.pug
     body
+        include ./inc/navi.pug
         div.container
             h1= `${name} 안녕하세요. PUG`
             table.table.table-bordered#user-table
@@ -24,3 +22,4 @@ html
                             td= users[i].name
                             td= users[i].age
                     -}
+        include ./inc/footer.pug

@@ -1,0 +1,26 @@
+extends ./layout.pug
+block title
+    .container.mt-3
+        .jumbotron
+            h2= `${name} 안녕하세요. PUG`
+block content
+      div.container
+            h1 얍얍얍
+            table.table.table-bordered#user-table
+                thead
+                    tr
+                        th 번호
+                        th 이름
+                        th 나이
+                tbody
+                    each item in users
+                        tr
+                            td= item.id
+                            td= item.name
+                            td= item.age
+                    - for(var i=0; i<users.length;i++){
+                        tr
+                            td= users[i].id
+                            td= users[i].name
+                            td= users[i].age
+                    -}
