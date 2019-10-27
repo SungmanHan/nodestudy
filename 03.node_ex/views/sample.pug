@@ -1,17 +1,26 @@
 html
     head
         title= title
+        <!-- 합쳐지고 최소화된 최신 CSS -->
+        link(rel="stylesheet", href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css")
     body
-        h1= `${name} 안녕하세요. PUG`
-        table
-            thead
-                tr
-                    th 번호
-                    th 이름
-                    th 나이
-            tbody
-                each item in users
+        div.container
+            h1= `${name} 안녕하세요. PUG`
+            table.table.table-bordered#user-table
+                thead
                     tr
-                        td= item.id
-                        td= item.name
-                        td= item.age
+                        th 번호
+                        th 이름
+                        th 나이
+                tbody
+                    each item in users
+                        tr
+                            td= item.id
+                            td= item.name
+                            td= item.age
+                    - for(var i=0; i<users.length;i++){
+                        tr
+                            td= users[i].id
+                            td= users[i].name
+                            td= users[i].age
+                    -}
