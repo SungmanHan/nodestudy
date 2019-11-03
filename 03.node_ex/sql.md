@@ -22,4 +22,5 @@ DELETE FROM users WHERE id=2;
 DELETE FROM users WHERE id<2;
 DELETE FROM users WHERE name="이정규";
 DELETE FROM users WHERE id > 10 AND age > 20;
+DELETE FROM users WHERE id > 200 AND name like "이%";
 ~~~
