@@ -13,7 +13,7 @@ const connection = mysql.createConnection({
   onnectionLimit : 100,
   waitForConnections : true,
   queueLimit :0,
-  debug    :  true,
+  debug    :  false,
   wait_timeout : 28800,
   connect_timeout :10
 });
@@ -29,7 +29,7 @@ app.listen(port,() => {
 });
 // post body 객체 접근 가능
 app.use(bodyParser.urlencoded({extended:false}));
-
+app.locals.pretty;
 
 // static root setting
 app.use("/",express.static("./public"));
@@ -87,31 +87,56 @@ function InsertIn (req,res) {
 app.post("/insert/:type", insertFn)
 function insertFn(req,res){
     const type = req.params.type;
-    const name = req.body.name;
-    const age = req.body.age;
-    const create_date = "2019-11-03 11:55:24";
+    
+    
     switch (type) {
         case "save":
             connection.connect();
+            let name = req.body.name;
+            let age = req.body.age;
+            let create_date = "2019-11-03 11:55:24";
+            //let sql = `INSERT INTO users SET name="${name}", age="${age}", create_date="${create_date}"`;
+            var sql = "INSERT INTO users SET username=?, age=?, wdate=?";
+            var sqlVals = [username, age, wdate];
             
-            var sql = `INSERT INTO users SET name="${name}", age="${age}", create_date="${create_date}"`;
-            console.log(sql)
-            connection.query(sql, (err, results, fields) => {
+            connection.query(sql,sqlVals, (err, results, fields) => {
                 if (err) {
                     console.error(err)
                     res.send(err);
                 }else{
-                    console.log('The solution is: ', results[0]);
-                    res.json(results[0])
+                    if(results.affectedRows == 1) {
+                        res.send("잘 저장 되었습니다.");
+                    }else {
+                        res.send("데이터 저장에 실패하였습니다.");
+                    }
                 }
             });
                 
             connection.end();
             //res.send("저장")
             break;
-    
+        case "save-pool":
+                var username = req.body.username;
+                var age = req.body.age;
+                var wdate = "2019-11-03 11:55:55";
+                var sql = "INSERT INTO users SET username=?, age=?, wdate=?";
+                var sqlVals = [username, age, wdate];
+                conn.getConnection((error, connect) => {
+                    if(error) console.log(error);
+                    else {
+                    connect.query(sql, sqlVals, (error, results, fields) => {
+                        if(error) console.log(error);
+                        else {
+                        res.json(results);
+                        }
+                        connect.release();
+                    });
+                    }
+                });
+                break;
         default:
             res.send("취소")
             break;
     }
 }
+
