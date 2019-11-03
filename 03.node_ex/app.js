@@ -1,6 +1,22 @@
 const express = require("express");
+const bodyParser = require("body-parser")
 const app = express();
 const port = 3000;
+
+const mysql      = require('mysql');
+const connection = mysql.createConnection({
+  host     : 'localhost',
+  port     : 3307,
+  user     : 'root',
+  password : 'qwer1234',
+  database : 'node_db',
+  onnectionLimit : 100,
+  waitForConnections : true,
+  queueLimit :0,
+  debug    :  true,
+  wait_timeout : 28800,
+  connect_timeout :10
+});
 
 const users = [
     {id:1, name:'홍길동',age:25},
@@ -11,6 +27,9 @@ const users = [
 app.listen(port,() => { 
     console.log("http://127.0.0.1:"+port);
 });
+// post body 객체 접근 가능
+app.use(bodyParser.urlencoded({extended:false}));
+
 
 // static root setting
 app.use("/",express.static("./public"));
@@ -58,3 +77,41 @@ app.get("/api/:type",(req,res) => {
             break;
     }
 });
+
+app.get("/insert-in",InsertIn)
+function InsertIn (req,res) {
+    const ret= {tit: "데이터 입력", subtit: "회원가입"};
+    res.render("sql/insert.pug",ret);
+}
+
+app.post("/insert/:type", insertFn)
+function insertFn(req,res){
+    const type = req.params.type;
+    const name = req.body.name;
+    const age = req.body.age;
+    const create_date = "2019-11-03 11:55:24";
+    switch (type) {
+        case "save":
+            connection.connect();
+            
+            var sql = `INSERT INTO users SET name="${name}", age="${age}", create_date="${create_date}"`;
+            console.log(sql)
+            connection.query(sql, (err, results, fields) => {
+                if (err) {
+                    console.error(err)
+                    res.send(err);
+                }else{
+                    console.log('The solution is: ', results[0]);
+                    res.json(results[0])
+                }
+            });
+                
+            connection.end();
+            //res.send("저장")
+            break;
+    
+        default:
+            res.send("취소")
+            break;
+    }
+}
