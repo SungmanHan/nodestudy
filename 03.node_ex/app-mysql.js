@@ -28,7 +28,8 @@ app.listen(port,() => {
 });
 
 // Router Get
-app.get("/user/:type",userGet);
+app.get(["/user/:type","/user/:type/:id"],userGet);
+
 
 // Rounter Post
 app.post("/user/:type",userPost);
@@ -36,6 +37,7 @@ app.post("/user/:type",userPost);
 // Router CB
 function userGet(req,res) {
     const type = req.params.type;
+    const id = req.params.id;
 
     switch (type) {
         case "wr":
@@ -52,6 +54,21 @@ function userGet(req,res) {
                     datas:jsToiso(result[0],"create_date")}
                 res.render("sql/list",vals);
             })();
+            break;
+        case "rm":
+            if(id){
+                (async () => {
+                    let sql = "DELETE FROM users WHERE id="+id;
+                    let result = await sqlExec(sql);
+                    if(result[0].affectedRows == 1){
+                        res.send(alertLoc("삭제 성공.", "/user/li"));
+                    }else{
+                        res.send(alertLoc("삭제 실패", "/user/li"));
+                    }
+                })();
+            }else{
+                res.send(alertLoc("삭제 실패", "/user/li"));
+            }
             break;
         default:
             break;
