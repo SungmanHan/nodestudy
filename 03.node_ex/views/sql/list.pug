@@ -1,0 +1,25 @@
+<!DOCTYPE html5>
+html(lang="ko")
+    include ../inc/header.pug
+    body
+        include ../inc/navi.pug
+        div.container
+            div.jumbotron.my-3
+                h1= tit
+                    span= "-"
+                    small= subtit
+            table.table.table-bordered.table-hover
+                thead.thead-dark
+                    tr
+                        th 번호
+                        th 이름
+                        th 나이
+                        th 가입일
+                tbody
+                    each item in datas
+                        tr
+                            td= item.id
+                            td= item.name
+                            td= item.age
+                            td= item.create_date
+                                    
