@@ -7,19 +7,27 @@ block content
         h2 Create
         form.form-inline(action="/rest" method="post")
             input(type="hidden" name="_method" value="create")
-            input.form-control(type="text" name="name")
+            input.form-control(type="text" name="username")
             button.btn.btn-primary.ml-2  전송
     .border.my-3.p-3
         h2 Update
         form.form-inline(action="/rest" method="post")
             input(type="hidden" name="_method" value="update")
-            input.form-control(type="text" name="name")
+            input.form-control(type="text" name="username")
             button.btn.btn-primary.ml-2  전송
     .border.my-3.p-3
         h2 Delete
         form.form-inline(action="/rest" method="post")
             input(type="hidden" name="_method" value="delete")
-            input.form-control(type="text" name="name")
+            input.form-control(type="text" name="username")
             button.btn.btn-primary.ml-2  전송
     .border.my-3.p-3
         h2 Red
+        div.border.d-flex.flex-warp
+            each item in datas
+                div.p-2.d-flex.align-itmes-center.rounded.border.m-2
+                    span.mr-2= item.id
+                    span.mr-3= item.username
+                    div
+                        button.btn.btn-success.btn-sm 수정
+                        button.btn.btn-danger.btn-sm 삭제
