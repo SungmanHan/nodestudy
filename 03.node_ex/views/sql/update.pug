@@ -1,0 +1,33 @@
+<!DOCTYPE html5>
+html(lang="ko")
+    include ../inc/header.pug
+    body
+        include ../inc/navi.pug
+        div.container
+            //- mt, mb, ml mr, mx, my, pt, pb, pl, pr, px, py
+            //- bootstrap: 기본폰트 : 16px = 1rem
+            //- -1(0.25rem(4px)), -auto(가운대정렬, ex mx-auto => margin : 0 auto)
+            div.jumbotron.my-3
+                h1= tit
+                    span= "-"
+                    small= subtit
+            form(name="sendForm" action="/user/update" method="post" onsubmit="return sendFormFn(this)")
+                table.table.table-bordered.table-hover
+                    thead.thead-dark
+                        tr
+                            th 구분
+                            th 내용
+                    tbody
+                        tr
+                            td 이름
+                            td 
+                                input(type="hidden" name="id" class="form-control" value=`${data.id}`)
+                                input(type="text" name="name" class="form-control" value=`${data.name}`)
+                        tr
+                            td 나이
+                            td 
+                                input(type="number" name="age" class="form-control" value=`${data.age}`)
+                        tr
+                            td(colspan="2")
+                                button.btn.btn-primary 저장
+                                button.btn.btn-danger(type="reset") 다시작성                    

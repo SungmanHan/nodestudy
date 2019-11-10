@@ -30,7 +30,6 @@ app.listen(port,() => {
 // Router Get
 app.get(["/user/:type","/user/:type/:id"],userGet);
 
-
 // Rounter Post
 app.post("/user/:type",userPost);
 
@@ -60,7 +59,7 @@ function userGet(req,res) {
                 (async () => {
                     let sql = "DELETE FROM users WHERE id="+id;
                     let result = await sqlExec(sql);
-                    if(result[0].affectedRows == 1){
+                    if(result[0].affectedRows > 0){
                         res.send(alertLoc("삭제 성공.", "/user/li"));
                     }else{
                         res.send(alertLoc("삭제 실패", "/user/li"));
@@ -70,6 +69,23 @@ function userGet(req,res) {
                 res.send(alertLoc("삭제 실패", "/user/li"));
             }
             break;
+        case "up":
+            if(id){
+                (async () => {
+                    let sql = "SELECT * FROM users WHERE id="+id;
+                    let sqlVals = [req.params.id];
+                    let result = await sqlExec(sql,sqlVals);
+                    let vals = {
+                        tit:"데이터 수정",
+                        subtit:"회원정보수정화면", 
+                        data:result[0][0]
+                    }
+                    res.render("sql/update",vals);
+                })();
+            }else{
+                res.send(alertLoc("수정 실패", "/user/li"));
+            }
+            break;
         default:
             break;
     }
@@ -77,18 +93,36 @@ function userGet(req,res) {
 
 function userPost(req,res) {
     const type = req.params.type;
+    let name = req.body.name;
+    let age = req.body.age;
+    let create_date = "";
+    let id = "";
+    let sql = "";
+    let sqlVals = [];
+    let result = "";
     switch (type) {
         case "save":
-            let name = req.body.name;
-            let age = req.body.age;
-            let create_date = isoDate(new Date(),1);
-            
             (async () => {
-                let sql = "INSERT INTO users SET name=?, age=?, create_date=?";
-                let sqlVals = [name, age, create_date];
-                let result = await sqlExec(sql,sqlVals);
+                create_date = isoDate(new Date(),1);
+                sql = "INSERT INTO users SET name=?, age=?, create_date=?";
+                sqlVals = [name, age, create_date];
+                result = await sqlExec(sql,sqlVals);
                 //res.json(result);
 				res.send(alertLoc("저장되었습니다.", "/user/li"));
+            })();
+            break;
+        case "update":
+            (async () => {
+                id = req.body.id;
+                sql = "UPDATE users SET name=?, age=? WHERE id=?";
+                sqlVals = [name, age,id];
+                result = await sqlExec(sql,sqlVals);
+                //res.json(result);
+                if (result[0].affectedRows > 0){
+                    res.send(alertLoc("수정되었습니다.", "/user/li"));
+                }else{
+                    res.send(alertLoc("수정실패했습니다.", "/user/li"));
+                }
             })();
             break;
     

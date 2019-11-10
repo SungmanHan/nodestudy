@@ -24,3 +24,9 @@ DELETE FROM users WHERE name="이정규";
 DELETE FROM users WHERE id > 10 AND age > 20;
 DELETE FROM users WHERE id > 200 AND name like "이%";
 ~~~
+
+## 4. 데이터 수정하기
+~~~sql
+UPDATE 테이블명 SET 필드명=값 WHERE 조건필드명=조건값;
+UPDATE usert SET name='hong', age='30' WHERE id=3;
+~~~

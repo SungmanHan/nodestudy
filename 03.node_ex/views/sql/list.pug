@@ -24,5 +24,6 @@ html(lang="ko")
                             td= item.age
                             td= item.create_date
                             td
-                                button.btn.btn-danger.btn-sm(onclick=`location.href='/user/rm/${item.id}'`) 삭제
+                                button.btn.btn-success.btn-sm(onclick=`location.href='/user/up/${item.id}';`) 수정
+                                button.btn.btn-danger.btn-sm(onclick=`location.href='/user/rm/${item.id}';`) 삭제
                                     
