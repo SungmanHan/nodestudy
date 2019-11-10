@@ -5,25 +5,25 @@ const conn = mysql.createPool({
   password : 'qwer1234',
   database : 'node_db',
   waitForConnections : true,
-  debug    :  false,
+  debug    :  true,
   port     : 3307,
   onnectionLimit : 100,
   wait_timeout : 28800,
   connect_timeout :10
 });
 
-const sqlExec = async (sql,sqlVlues) => {
-    const connect = await conn.getConnection();   // 동기화 함수
-    const result = await connect.query(sql,sqlVlues);
-    connect.release();
-    return result;
-};
-
-/*
-const sqlExec2 = async (sql,sqlVlues) => {
-    conn.getConnection((err,conn) => {
-      const result =  await conn.query(sql,sqlVlues);
-    })
-}*/
+const sqlExec = async (sql, sqlVals) => {
+	try {
+		const connect = await conn.getConnection();
+		const result = await connect.query(sql, sqlVals);
+		connect.release();
+		return result;
+	}
+	catch(error) {
+		console.log("-------------------");
+		console.log(error);
+		console.log("-------------------");
+	}
+}
 
 module.exports = {mysql,conn,sqlExec};

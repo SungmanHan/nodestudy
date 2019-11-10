@@ -7,7 +7,9 @@ const {alertLoc} = require("../modules/util-loc")
 
 let sql = "";
 let result = "";
-
+let username = "";
+let id = 0;
+let vals = [];
 
 router.get("/",(req,res) => {
     (async () => {
@@ -19,22 +21,39 @@ router.get("/",(req,res) => {
 
 router.post("/",(req,res) => {
     (async () => {
-        let username = req.body.username;
+        username = req.body.username;
         let wdate = isoDate(new Date(),1);
         sql = "INSERT INTO rest SET username=?, wdate=?";
-        let vals = [username,wdate];
+        vals = [username,wdate];
         result = await sqlExec(sql,vals);
         if (result[0].affectedRows > 0){
             //res.json(result)
             res.send(alertLoc("생성 성공.", "rest/"));
         }else{
-
+            res.send(alertLoc("생성 실패.", "rest/"));
         }
     })();
 });
 
 router.put("/",(req,res) => {
-    res.send("<h1>ADMIN-UPDATE</h1>");
+
+    (async () => {
+        id= req.body.id;
+        if(id > 0){
+            username = req.body.username;
+            sql = "UPDATE rest SET username=? WHERE id=?";
+            vals = [username,id];
+            result = await sqlExec(sql,vals);
+            if (result[0].affectedRows > 0){
+                //res.json(result)
+                res.send(alertLoc("수정 성공.", "rest/"));
+            }else{
+                res.send(alertLoc("수정 실패.", "rest/"));
+            }
+        }else{
+            res.send(alertLoc("수정 실패.", "rest/"));
+        }
+    })();
 });
 
 router.delete("/",(req,res) => {
