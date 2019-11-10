@@ -36,7 +36,6 @@ router.post("/",(req,res) => {
 });
 
 router.put("/",(req,res) => {
-
     (async () => {
         id= req.body.id;
         if(id > 0){
@@ -57,7 +56,20 @@ router.put("/",(req,res) => {
 });
 
 router.delete("/",(req,res) => {
-    res.send("<h1>ADMIN-DELETE</h1>");
+    id= req.body.id;
+    (async ()=> {
+        if(id > 0) {
+            sql = "DELETE FROM rest WHERE id="+id;
+            result = await sqlExec(sql)
+            if(result[0].affectedRows > 0){
+                res.send(alertLoc("삭제 성공.", "rest/"));
+            }else{
+                res.send(alertLoc("삭제 실패.", "rest/"));
+            }
+        }else{
+            res.send(alertLoc("삭제 실패.", "rest/"));
+        }
+    })();
 });
 
 module.exports = router
