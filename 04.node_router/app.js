@@ -3,10 +3,11 @@ const express = require("express");
 const app = express();
 const path = require("path");
 const fs = require('fs');
+const httpErrors = require("http-errors");
 const rfs = require('rotating-file-stream');
-const morgan = require('morgan');
 
 /* node mondule */
+const morgan = require('morgan');
 const bodyParser = require("body-parser");
 const methodOverride = require('method-override');
 
@@ -34,6 +35,7 @@ let accessLogStream = rfs('access.log', {
     interval: '1d', // rotate daily
     path: logDirectory
 });
+
 app.use(morgan('combined', { stream: accessLogStream }))
 
 /* Method orverride setting */ 
@@ -58,3 +60,22 @@ app.use("/board",boardRouter);
 app.use("/admin",adminRouter);
 app.use("/rest",restRouter);
 app.use("/api",apiRouter);
+
+/*
+ 사용자 직접 생성 미들웨어
+const md = (req,res,next) => {
+
+}
+app.use(md)
+*/
+
+/* 예외처리 */
+app.use((req,res,next) => {
+    next(httpErrors(404));
+});
+
+app.use((error,req,res,next) => {
+    res.locals.message = error.message;
+    res.locals.error = error;
+    res.render("error");
+});
