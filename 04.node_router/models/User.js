@@ -9,7 +9,7 @@ User.init({
 	username: {type: Sequelize.STRING, allowNull: false}
 }, {
 	sequelize,
-	modelName: "users2"
+	modelName: "userlists"
 });
 User.sync({force: true});
 

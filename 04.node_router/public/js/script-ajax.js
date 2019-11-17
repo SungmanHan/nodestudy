@@ -1,6 +1,9 @@
 // axios use
 const getData = () => {
-	axios.get("/api").then(function(res) {
+	/*axios.get("/api").then(function(res) {
+		console.log("==========================")
+		console.log(res)
+		console.log("==========================")
 		var html = '';
 		var datas = res.data;
 		for(var i in datas) {
@@ -10,6 +13,20 @@ const getData = () => {
 			html += '<div>';
 			html += '<button class="btn btn-success btn-sm" onclick="chgData(\''+datas[i].id+"_"+datas[i].username+'\');">수정</button>';
 			html += '<button class="btn btn-danger btn-sm" onclick="revData('+datas[i].id+');">삭제</button>';
+			html += '</div>';
+			html += '</div>';
+		}
+		document.querySelector(".list-wrap").innerHTML = html;
+	});*/
+	axios.get("/seq").then(function(res){
+		var html = '';
+		for(var i in res.data) {
+			html += '<div class="p-2 d-flex align-items-center rounded border m-2">';
+			html += '<span class="mr-2 user-id">'+res.data[i].id+'</span>';
+			html += '<span class="mr-3 user-name">'+res.data[i].username+'</span>';
+			html += '<div>';
+			html += '<button class="btn btn-success btn-sm" onclick="chgData(this);">수정</button>';
+			html += '<button class="btn btn-danger btn-sm" onclick="revData('+res.data[i].id+');">삭제</button>';
 			html += '</div>';
 			html += '</div>';
 		}
@@ -41,12 +58,15 @@ const sendData = (f) => {
 		f.username.focus();
 		return false;
 	}
-	axios.post("/api", {
+	console.log("-------------------------------------")
+	console.log(f.username.value)
+	console.log("-------------------------------------")
+	//axios.post("/api", {
+	axios.post("/seq", {
 		username : f.username.value
 	}).then((res) => {
-		if(res.status == 200){
-			getData();
-		}
+		//console.log(res)
+		if(res.status == 200) getData();
 	}).catch((err) => {
 		console.log(err)
 	});
