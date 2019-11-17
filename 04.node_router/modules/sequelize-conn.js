@@ -1,27 +1,32 @@
 const Sequelize = require("sequelize");
 const sequelize = new Sequelize({
-    dialect : "mysql",
+    dialect  : "mysql",
+    port     : 3307,
     host     : 'localhost',
-    user     : 'root',
+    username : 'root',
     password : 'qwer1234',
     database : 'node_db',
-    pooL : {
+    pool: {
         waitForConnections : true,
-        debug    :  true,
-        port     : 3307,
+        debug    :  false,
         onnectionLimit : 100,
         wait_timeout : 28800,
-        connect_timeout :10
-    }
+        connect_timeout :10,
+		max: 10,
+		min: 0,
+		acquire: 30000,
+		idle: 10000
+	}
 });
 
 (async () => {
-    try {
-        await sequelize.authenticate();
-        console.log("susccess")
-    } catch (error) {
-        throw new Error(error);
-    }
-})
+	try {
+		await sequelize.authenticate();
+		console.log("success");
+	}
+	catch(err) {
+		throw new Error(err);
+	}
+})();
 
-module.exports = {Sequelize,sequelize}
+module.exports = {Sequelize, sequelize}
