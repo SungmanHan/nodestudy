@@ -5,7 +5,7 @@ const conn = mysql.createPool({
   password : 'qwer1234',
   database : 'node_db',
   waitForConnections : true,
-  debug    :  true,
+  debug    :  false,
   port     : 3307,
   onnectionLimit : 100,
   wait_timeout : 28800,

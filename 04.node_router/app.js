@@ -23,6 +23,7 @@ log(path.join(__dirname,"public"))
 
 /* exppress setting */
 app.use("/",express.static(path.join(__dirname,"public")));
+app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended:false}));
 app.set("view engine","pug");
 app.set("views",path.join(__dirname,"views"));
@@ -56,10 +57,12 @@ const boardRouter = require(path.join(__dirname,"router/board"));
 const adminRouter = require(path.join(__dirname,"router/admin"));
 const restRouter = require(path.join(__dirname,"router/rest"));
 const apiRouter = require(path.join(__dirname,"router/api"));
+//const seqRouter = require(path.join(__dirname,"router/seq"));
 app.use("/board",boardRouter);
 app.use("/admin",adminRouter);
 app.use("/rest",restRouter);
 app.use("/api",apiRouter);
+//app.use("/seq",seqRouter);
 
 /*
  사용자 직접 생성 미들웨어

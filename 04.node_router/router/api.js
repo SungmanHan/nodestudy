@@ -13,12 +13,29 @@ router.get("/", (req, res, next) => {
 	})();
 });
 
+/*
+next sample
+router.get("/", (req, res, next) => {
+	(async () => {
+		let sql = "SELECT * FROM rest ORDER BY id DESC";
+		let result = await sqlExec(sql);
+		//res.json(result[0]);
+	})();
+	next();
+}, (req, res, next) => {
+	debugger;
+	console.log(req)
+	res.json("next");
+});
+*/
+
 router.post("/", (req, res, next) => {
 	(async () => {
 		let username = req.body.username;
 		let sql = "INSERT INTO rest SET username=?, wdate=?";
 		let sqlVals = [username, new Date()];
 		let result = await sqlExec(sql, sqlVals);
+		res.set('location', '/api');
 		res.json(result[0]);
 	})();
 });
