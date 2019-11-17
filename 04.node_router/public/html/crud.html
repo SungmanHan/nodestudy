@@ -14,14 +14,14 @@
     </div>
     <div class="border my-3 p-3">
       <h2>Create</h2>
-      <form class="form-inline">
+      <form class="form-inline" name="wrForm">
         <input class="form-control" type="text" name="username">
         <button type="button" class="btn btn-primary ml-2" onclick="sendData(this.form);">전송</button>
       </form>
     </div>
     <div class="border my-3 p-3">
       <h2>Update</h2>
-      <form class="form-inline">
+      <form class="form-inline" name="upForm">
         <input type="hidden" id="id" name="id" value="">
         <input class="form-control" id="username" type="text" name="username">
         <button class="btn btn-primary ml-2" onclick="modifyData(this.form);">전송</button>

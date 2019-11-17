@@ -31,11 +31,23 @@ async function postData(req,res,next){
 }
 
 async function putData(req,res,next){
-	res.send("PUT")	
+	let result = await User.update({
+		username: req.body.username
+	},{
+		where: {
+			id:req.body.id
+		}
+	});
+	res.json(result);
 }
 
 async function deleteData(req,res,next){
-	res.send("DELETE")	
+	let result = await User.destroy({
+		where:{
+			id:req.body.id
+		}
+	});
+	res.json(result);
 }
 
 module.exports = router;

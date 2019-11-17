@@ -11,6 +11,6 @@ User.init({
 	sequelize,
 	modelName: "userlists"
 });
-User.sync({force: true});
+User.sync({force: false});
 
 module.exports = {User}

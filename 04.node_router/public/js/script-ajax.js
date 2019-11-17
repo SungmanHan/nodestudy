@@ -25,7 +25,7 @@ const getData = () => {
 			html += '<span class="mr-2 user-id">'+res.data[i].id+'</span>';
 			html += '<span class="mr-3 user-name">'+res.data[i].username+'</span>';
 			html += '<div>';
-			html += '<button class="btn btn-success btn-sm" onclick="chgData(this);">수정</button>';
+			html += '<button class="btn btn-success btn-sm" onclick="chgData(\''+res.data[i].id+"_"+res.data[i].username+'\');">수정</button>';
 			html += '<button class="btn btn-danger btn-sm" onclick="revData('+res.data[i].id+');">삭제</button>';
 			html += '</div>';
 			html += '</div>';
@@ -34,12 +34,12 @@ const getData = () => {
 	});
 }
 
-
-
 const revData = (id) => {
 	var data = {id:id};
 	if (confirm("정말로 삭제하시겠습니까?")) {
-		axios.delete("/api/",{data:{id:id}
+
+		//axios.delete("/api",{data:{id:id}
+		axios.delete("/seq",{data:{id:id}
 		}).then((res) => {
 			if(res.status == 200){
 				getData();
@@ -66,7 +66,10 @@ const sendData = (f) => {
 		username : f.username.value
 	}).then((res) => {
 		//console.log(res)
-		if(res.status == 200) getData();
+		if(res.status == 200) {
+			document.wrForm.username.value="";
+			getData();
+		}
 	}).catch((err) => {
 		console.log(err)
 	});
@@ -82,12 +85,15 @@ const modifyData = (f) => {
 		f.username.focus();
 		return false;
 	}
-	axios.put("/api", {
+	//axios.put("/api", {
+	axios.put("/seq", {
 		id : Number(f.id.value),
 		username : f.username.value
 	}).then((res) => {
 		console.log(res)
 		if(res.status == 200){
+			document.upForm.id.value="";
+			document.upForm.username.value="";
 			getData();
 		}
 	}).catch((err) => {
