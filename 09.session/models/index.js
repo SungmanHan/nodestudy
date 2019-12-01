@@ -36,5 +36,6 @@ db.Sequelize = Sequelize;
 
 /* codding here! new import */
 db.Users = require("./Users")(sequelize,Sequelize);
+db.salt = "20191201";
 
 module.exports = db;
