@@ -1,15 +1,7 @@
-html(lang="ko")
-    head
-        include ./inc/header.pug
-    body
-        include ./inc/navi.pug
-        if titleChk != "false"
-            block title
-        - var a = 10;
-        - if(titleChk != "false"){
-        div= `타이틀 표시 ${a}`
-        - }else {
-        div= `타이틀 안함 ${a}`
-        - }
-        block content
-        include ./inc/footer.pug
+doctype html
+html
+  head
+    title= title
+    link(rel='stylesheet', href='/stylesheets/style.css')
+  body
+    block content
