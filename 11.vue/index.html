@@ -10,15 +10,21 @@
 </head>
 <body>
 	<div id="app" class="container">
-		<form>
-			<div>
+		<form v-on:submit.prevent="onSubmit">
+			<div class="position-relative">
 				<input type="text" class="form-control" v-model="query">
-				<div></div>
+				<i v-show="query.length" v-on:click="queryRev" class="fas fa-times position-absolute" style="right:10px;top:11px;"></i>
 			</div>
 		</form>
-		<div class="border my-3 p-3">{{ query }}</div>
+        <div class="border my-3 p-3">{{ query }}</div>
+        <ul class="border p-3 d-flex justify-content-center">
+            <li v-for="time in prds" style="flex: 30% 0 0" v-show="results">
+                <div> <img class="w-100" v-bind:src="item.src" v-bind:alt="item.title"></div>
+                <div>{{item.title}}</div>
+            </li>
+        </ul>
 	</div>
-	<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
 	<script src="./index.js" type="module"></script>
 </body>
 </html>
