@@ -1,3 +1,5 @@
+require("dotenv").config(); // .env 파일의 값을 process.env 로 읽어들인다
+
 const express = require("express");
 const app = express();
 const mysql =  require("mysql");
@@ -18,12 +20,12 @@ app.use("/delte-info",deleteInfo);
 app.listen(4444,()=>console.log("http://127.0.0.1:4444"));
 
 app.get("/", (req,res,next) => {
-    var con = mysql.createConnection({
-        host: 'localhost',
-        post: 4444,
-        user: "sungman",
-        password: "qwer1234",
-        database: "mytable"
+    const con = mysql.createConnection({
+        host: process.env.DB_HOST,
+        post: Number(process.env.DB_PORT), // ⚠️ 'port' 오타 — README 참고
+        user: process.env.DB_USER,
+        password: process.env.DB_PASSWORD,
+        database: process.env.DB_NAME
     });
 
     con.connect();

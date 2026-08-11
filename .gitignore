@@ -1,0 +1,41 @@
+# ─── 의존성 ────────────────────────────────────────────────
+node_modules/
+jspm_packages/
+.npm
+.yarn-integrity
+
+# ─── 환경 변수 (DB 접속정보 등 비밀값) ─────────────────────
+# .env 는 절대 커밋하지 않는다. 대신 .env.example 을 커밋한다.
+.env
+.env.*
+!.env.example
+
+# ─── 로그 ──────────────────────────────────────────────────
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# ─── 실행 중 생성되는 산출물 ───────────────────────────────
+# 07.node/04.fileSystem.js 가 fs.writeFile 로 만드는 파일
+07.node/reademe*.txt
+# 09.session 의 session-file-store 가 만드는 세션 파일
+09.session/sessions/
+# 08.multer 업로드 실습 결과물 (.gitkeep 만 유지)
+08.multer/public/uploads/*
+!08.multer/public/uploads/.gitkeep
+
+# ─── 빌드 산출물 ───────────────────────────────────────────
+dist/
+build/
+coverage/
+*.tgz
+
+# ─── 에디터 · OS ───────────────────────────────────────────
+.DS_Store
+Thumbs.db
+.vscode/*
+!.vscode/settings.json
+!.vscode/extensions.json
+.idea/

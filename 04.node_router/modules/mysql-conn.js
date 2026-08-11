@@ -1,12 +1,12 @@
 const mysql = require('mysql2/promise');
 const conn = mysql.createPool({
-  host     : 'localhost',
-  user     : 'root',
-  password : 'qwer1234',
-  database : 'node_db',
+  host     : process.env.DB_HOST,
+  user     : process.env.DB_USER,
+  password : process.env.DB_PASSWORD,
+  database : process.env.DB_NAME,
   waitForConnections : true,
   debug    :  false,
-  port     : 3307,
+  port     : Number(process.env.DB_PORT),
   onnectionLimit : 100,
   wait_timeout : 28800,
   connect_timeout :10

@@ -1,11 +1,11 @@
 const Sequelize = require("sequelize");
 const sequelize = new Sequelize({
     dialect  : "mysql",
-    port     : 3307,
-    host     : 'localhost',
-    username : 'root',
-    password : 'qwer1234',
-    database : 'node_db',
+    port     : Number(process.env.DB_PORT),
+    host     : process.env.DB_HOST,
+    username : process.env.DB_USER,
+    password : process.env.DB_PASSWORD,
+    database : process.env.DB_NAME,
     pool: {
         waitForConnections : true,
         debug    :  false,

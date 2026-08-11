@@ -5,7 +5,7 @@ const path = require('path');
 const Sequelize = require('sequelize');
 const basename = path.basename(__filename);
 const env = process.env.NODE_ENV || 'development';
-const config = require(__dirname + '/../config/config.json')[env];
+const config = require(__dirname + '/../config/config')[env];
 const db = {};
 
 let sequelize;
@@ -36,6 +36,8 @@ db.Sequelize = Sequelize;
 
 /* codding here! new import */
 db.Users = require("./Users")(sequelize,Sequelize);
-db.salt = "20191201";
+// ⚠️ 모든 사용자가 같은 salt 를 씁니다. 원래 salt 는 사용자마다 달라야 합니다.
+//    수업 코드 그대로 두되 값만 .env 로 옮겼습니다. README 의 연습 과제 2번 참고.
+db.salt = process.env.PASSWORD_SALT;
 
 module.exports = db;

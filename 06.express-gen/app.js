@@ -1,18 +1,20 @@
-var createError = require('http-errors'); // 외부 404 error를 찾는 것-mw
-var express = require('express'); 
-var fs = require('fs'); // node
-var path = require('path'); // 경로 설정 node
-var cookieParser = require('cookie-parser'); // 외부-mw
-var logger = require('morgan'); // 외부-mw
-var methodOverride = require('method-override'); // 외부-mw
-var rfs = require('rotating-file-stream'); // 외부-mw
-var sequelize = require("./models").sequelize;
+require("dotenv").config(); // .env 파일의 값을 process.env 로 읽어들인다
+
+const createError = require('http-errors'); // 외부 404 error를 찾는 것-mw
+const express = require('express'); 
+const fs = require('fs'); // node
+const path = require('path'); // 경로 설정 node
+const cookieParser = require('cookie-parser'); // 외부-mw
+const logger = require('morgan'); // 외부-mw
+const methodOverride = require('method-override'); // 외부-mw
+const rfs = require('rotating-file-stream'); // 외부-mw
+const sequelize = require("./models").sequelize;
 
 // Router
-var indexRouter = require('./routes/index');
-var usersRouter = require('./routes/users');
+const indexRouter = require('./routes/index');
+const usersRouter = require('./routes/users');
 
-var app = express();
+const app = express();
 
 /* Morgan setting */
 let logDirectory = path.join(__dirname, 'log');
@@ -31,7 +33,7 @@ app.use(methodOverride('X-Method-Override')) //      IBM
 app.use(methodOverride((req, res) => {
     if (req.body && typeof req.body === 'object' && '_method' in req.body) {
         // look in urlencoded POST bodies and delete it
-        var method = req.body._method
+        const method = req.body._method
         delete req.body._method
         return method
     }

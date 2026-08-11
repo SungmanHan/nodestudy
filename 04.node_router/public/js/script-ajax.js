@@ -4,9 +4,9 @@ const getData = () => {
 		console.log("==========================")
 		console.log(res)
 		console.log("==========================")
-		var html = '';
-		var datas = res.data;
-		for(var i in datas) {
+		let html = '';
+		let datas = res.data;
+		for (const i in datas) {
 			html += '<div class="p-2 d-flex align-items-center rounded border m-2">';
 			html += '<span class="mr-2 user-id">'+datas[i].id+'</span>';
 			html += '<span class="mr-3 user-name">'+datas[i].username+'</span>';
@@ -19,8 +19,8 @@ const getData = () => {
 		document.querySelector(".list-wrap").innerHTML = html;
 	});*/
 	axios.get("/seq").then(function(res){
-		var html = '';
-		for(var i in res.data) {
+		let html = '';
+		for (const i in res.data) {
 			html += '<div class="p-2 d-flex align-items-center rounded border m-2">';
 			html += '<span class="mr-2 user-id">'+res.data[i].id+'</span>';
 			html += '<span class="mr-3 user-name">'+res.data[i].username+'</span>';
@@ -35,7 +35,7 @@ const getData = () => {
 }
 
 const revData = (id) => {
-	var data = {id:id};
+	const data = {id:id};
 	if (confirm("정말로 삭제하시겠습니까?")) {
 
 		//axios.delete("/api",{data:{id:id}
@@ -102,7 +102,7 @@ const modifyData = (f) => {
 }
 
 const chgData = (f) => {
-	var tempData = f.split("_");
+	const tempData = f.split("_");
 	document.getElementById("id").value=tempData[0];
 	document.getElementById("username").value=tempData[1];
 }
@@ -115,7 +115,7 @@ getData();
 axios.post();
 axios.put();
 
-var xhr = new XMLHttpRequest();
+const xhr = new XMLHttpRequest();
 function getData() {
  	xhr.open("get", "/api");
  	xhr.send();
@@ -127,9 +127,9 @@ getData();
 
 
 xhr.addEventListener("load", function(){
-	var html = '';
-	var datas = JSON.parse(this.responseText);
-	for(var i in datas) {
+	let html = '';
+	const datas = JSON.parse(this.responseText);
+	for (const i in datas) {
 		html += '<div class="p-2 d-flex align-items-center rounded border m-2">';
 		html += '<span class="mr-2 user-id">'+datas[i].id+'</span>';
 		html += '<span class="mr-3 user-name">'+datas[i].username+'</span>';

@@ -24,7 +24,7 @@ app.locals.pretty = true;
 
 // run server
 app.listen(port,() => { 
-    console.log("http://127.0.0.1:"+port);
+    console.log(`http://127.0.0.1:${port}`);
 });
 
 // Router Get
