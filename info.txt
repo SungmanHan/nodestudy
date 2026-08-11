@@ -1,4 +1,4 @@
 강사님 : 임덕규
-연락처 : 010-8332-8040
-이메일 : booldook@gmail.com
-git : GitHub.com/booldook
+git : https://github.com/booldook
+
+※ 개인 연락처(휴대폰·이메일)는 공개 저장소에 노출되지 않도록 삭제했습니다.
