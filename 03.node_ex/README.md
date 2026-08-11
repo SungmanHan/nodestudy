@@ -164,3 +164,4 @@ res.render("sql/list", {tit:"데이터 출력", datas: rows});
 3. `views/include.pug` 를 만들어 `/pug/include` 라우트를 살리세요. pug의 `include` 문법을 찾아 쓰세요.
 4. `callback.html` 의 로직을 `callback_promise.html` → `callback_async.html` 순으로 직접 다시 써 보세요 (파일을 보지 말고).
 5. `create_date` 를 하드코딩된 문자열 대신 MySQL `NOW()` 로 바꾸세요.
+6. `app-mysql.js` 의 `"DELETE FROM users WHERE id="+id` 와 `"SELECT * FROM users WHERE id="+id` 는 위에서 배운 파라미터 바인딩을 쓰지 않고 **문자열을 그대로 잇고 있습니다.** `?` 바인딩으로 고치세요. 같은 파일의 `save`/`update` 분기는 이미 제대로 하고 있으니 비교해 보세요.

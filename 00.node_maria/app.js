@@ -20,7 +20,7 @@ app.use("/delte-info",deleteInfo);
 app.listen(4444,()=>console.log("http://127.0.0.1:4444"));
 
 app.get("/", (req,res,next) => {
-    var con = mysql.createConnection({
+    const con = mysql.createConnection({
         host: process.env.DB_HOST,
         post: Number(process.env.DB_PORT), // ⚠️ 'port' 오타 — README 참고
         user: process.env.DB_USER,

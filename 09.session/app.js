@@ -1,21 +1,21 @@
 require("dotenv").config(); // .env 파일의 값을 process.env 로 읽어들인다
 
-var createError = require('http-errors');
-var express = require('express');
-var path = require('path');
-var cookieParser = require('cookie-parser');
-var session = require('express-session');
-var sessionStore = require('session-file-store')(session);
-var logger = require('morgan');
-var log = console.log;
+const createError = require('http-errors');
+const express = require('express');
+const path = require('path');
+const cookieParser = require('cookie-parser');
+const session = require('express-session');
+const sessionStore = require('session-file-store')(session);
+const logger = require('morgan');
+const log = console.log;
 
-var indexRouter = require('./routes/index');
-var usersRouter = require('./routes/users');
+const indexRouter = require('./routes/index');
+const usersRouter = require('./routes/users');
 
-var app = express();
+const app = express();
 
 /* sequelize init */
-var sequelize = require("./models").sequelize; // index.js 생략가능
+const sequelize = require("./models").sequelize; // index.js 생략가능
 sequelize.sync(); // db create
 
 

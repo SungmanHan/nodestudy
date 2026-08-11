@@ -4,7 +4,7 @@ $.ajax({
     dataType: "json",
     success: (res) =>{
         html = "";
-        for(var i in res.result){
+        for (const i in res.result){
             html += `<tr>`;
             html += `<td>`+res.result[i].id+`</td>`;
             html += `<td>`+res.result[i].name+`</td>`;

@@ -14,8 +14,8 @@ if(cluster.isMaster){
     });
 }else{
     http.createServer((req,res) => {
-        console.log(process.pid+"구동");
+        console.log(`${process.pid}구동`);
         res.end("<h1>서버 응답</h1>");
     }).listen(3001);
-    console.log(process.pid+"번 서버가 실행되었습니다.");
+    console.log(`${process.pid}번 서버가 실행되었습니다.`);
 }

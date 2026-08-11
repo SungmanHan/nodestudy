@@ -1,11 +1,11 @@
-var xhr = new XMLHttpRequest(); // 통신 모듈 사용
+const xhr = new XMLHttpRequest(); // 통신 모듈 사용
 
 xhr.open("GET","/api/list"); // 통신 방식 설정
 
 xhr.addEventListener("load",function(){
-   var res = (JSON.parse(this.responseText));
-   var html = ``;
-   for(var i in res.result){
+   const res = (JSON.parse(this.responseText));
+   let html = ``;
+   for (const i in res.result){
        html += `<tr>`;
        html += `<td>`+res.result[i].id+`</td>`;
        html += `<td>`+res.result[i].name+`</td>`;

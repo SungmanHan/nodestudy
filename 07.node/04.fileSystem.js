@@ -9,14 +9,14 @@ fs.writeFile(pathInfo,txt,(err) => {
 
 fs.readFile(pathInfo,(err,res) => {
     if(err) throw err;
-    console.log(">"+res.toString());
+    console.log(`>${res.toString()}`);
 });
 
 txt = "아버지2를 아버지2라.. 용왕이 나의 간을....";
 pathInfo = "./reademe2.txt";
 fs.writeFileSync(pathInfo,txt); // 작성
 let r = fs.readFileSync(pathInfo);
-console.log("sync > "+r.toString());
+console.log(`sync > ${r.toString()}`);
 
 /*
 fs.readFile()

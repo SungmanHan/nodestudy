@@ -1,8 +1,8 @@
-var express = require('express');
-var router = express.Router();
-var crypto = require("crypto");
+const express = require('express');
+const router = express.Router();
+const crypto = require("crypto");
 var {Users,salt} = require("../models");
-var log = console.log;
+const log = console.log;
 
 /* GET users listing. */
 router.get('/', (req, res, next) => {
@@ -18,7 +18,7 @@ router.get("/logout", (req,res,next) => {
 
 router.post('/login', async (req, res, next) => {
   console.log(req.body)
-  var result = await Users.findOne({
+  let result = await Users.findOne({
     where: {
       userid: req.body.userid,
       userpw: crypto.createHash("sha512").update(req.body.userpw + salt).digest("base64")
@@ -49,7 +49,7 @@ router.get("/join", (req,res,next) => {
 
 /* POST users listing. */
 router.post("/join", async (req,res,next) => {
-  var result = await Users.create({
+  const result = await Users.create({
     userid: req.body.userid,
     userpw: crypto.createHash("sha512").update(req.body.userpw + salt).digest("base64"),
     username: req.body.username

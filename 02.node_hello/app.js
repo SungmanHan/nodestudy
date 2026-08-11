@@ -25,7 +25,7 @@ app.use(bodyParser.urlencoded({extended:false}));
 // 동적 Route
 // /hello로 요청이 들어오면 req ,res로 보냄
 app.get("/hello", function(req,res) {
-    var name = req.query.name;
+    const name = req.query.name;
     res.send(`<h1>${name}님 반갑습니다.</h1>`);
 });
 app.get("/test", (req,res) => {
@@ -37,7 +37,7 @@ app.get("/test2", (req,res) => {
 });
 
 app.get(["/books","/books/:id"],(req,res) =>{
-    var id = req.params.id;
+    let id = req.params.id;
     if(!id) id = 0;
     
     const books = [
@@ -55,7 +55,7 @@ app.get(["/books","/books/:id"],(req,res) =>{
 // post
 //----------------------------------------------------------------------------
 app.post("/join-save",(req,res)=>{
-    var userid = req.body.userid;
-    var username = req.body.username;
+    const userid = req.body.userid;
+    const username = req.body.username;
     res.send(`<p>저장정보 </br> ID : ${userid} </br> 이름 : ${username} </br> 등록시간 : ${util.isoDate(new Date())} </p>`);
 });

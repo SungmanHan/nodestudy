@@ -173,6 +173,7 @@ User.sync({force: false});
 - Sequelize 6부터 `Sequelize.TINYINT` 같은 타입은 `DataTypes.TINYINT` 로 접근합니다.
 - `router/rest.js` 의 `sql`, `result`, `username`, `id` 는 **모듈 최상위에 선언된 공유 변수**입니다. 요청이 동시에 들어오면 서로 값을 덮어씁니다. 지금이라면 각 핸들러 안에서 `const` 로 선언합니다 — 연습 과제 3번.
 - `DELETE` 분기의 `"DELETE FROM rest WHERE id=" + id` 는 문자열 연결입니다. 같은 파일의 다른 분기는 `?` 바인딩을 쓰는데 여기만 빠졌습니다.
+- `modules/util-doc.js` 의 `isoDate(d, 1)` 은 원래 `2019-11-03 -11:55:24` 처럼 **시각 앞에 하이픈이 하나 더** 붙어 나왔습니다. 같은 파일 상단 주석이 규정한 형식(`2019-11-03 11:11:11`)과 어긋나는 오타여서 바로잡았습니다.
 
 ## 연습 과제
 
