@@ -1,8 +1,8 @@
 const mongoose = require("mongoose");
 module.exports = () => {
     const connect = () => {
-        mongoose.connect("mongodb://db:00000@localhostL15000/admin",{
-            adName:"db"
+        mongoose.connect(process.env.MONGO_URI,{
+            adName: process.env.MONGO_DB_NAME
         })
     }
 }

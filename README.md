@@ -38,7 +38,7 @@
 | `01.es6` | ES6 문법 | — | — | ✅ 브라우저에서 바로 실행 |
 | `07.node` | Node 코어 모듈 | — | 3001<sup>*</sup> | ⚠️ `03.cipher.js`는 Node 22+ 에서 실행 불가 |
 | `02.node_hello` | Express 입문 | — | 3000 | ✅ 실행 가능 |
-| `03.node_ex` | 비동기 + MySQL + pug | MySQL | 3000 | ⚠️ `app.js` 미완성 · `app-mysql.js`는 모듈 누락 |
+| `03.node_ex` | 비동기 + MySQL + pug | MySQL | 3000 | ❌ `app.js` 구문 오류 · `app-mysql.js`는 모듈 누락 |
 | `03.express-generator` | 프로젝트 골격 | — | — | ⚠️ `bin/www` 미커밋 → `npm start` 불가 |
 | `04.node_router` | 라우터 분리·REST | MySQL | 3000 | ✅ 실행 가능 (DB 필요) |
 | `06.express-gen` | Sequelize 모델 | MySQL | — | ⚠️ `bin/www`·`config/config.json` 누락 |
@@ -106,7 +106,8 @@ node app.js            # 또는 npm start
 
 ## 알려진 한계
 
-- **의존성이 오래되었습니다.** 2019년 버전에 고정돼 있어 GitHub Dependabot 보안 경보가 다수 열려 있습니다. 대부분 Express 4→5, Sequelize 5→6, Mongoose 5→8, Vue 2→3 같은 **메이저 업그레이드**로만 닫히는데, 그렇게 하면 예제 코드를 전부 다시 써야 해서 "수업에서 배운 그 코드"라는 이 저장소의 성격이 사라집니다. 그래서 **메이저 업그레이드는 하지 않고**, 대신 각 챕터 README에 지금 달라진 점을 적어 두는 쪽을 택했습니다.
+- **의존성이 오래되었습니다.** 2019년 버전에 고정돼 있어 GitHub Dependabot 보안 경보가 다수 열려 있습니다. 대부분 Express 4→5, Sequelize 5→6, Mongoose 5→8, Vue 2→3 같은 **메이저 업그레이드**로만 닫히는데, 그렇게 하면 예제 코드를 전부 다시 써야 해서 "수업에서 배운 그 코드"라는 이 저장소의 성격이 사라집니다. 그래서 **메이저 업그레이드는 하지 않고**, 대신 각 챕터 README에 지금 달라진 점을 적어 두는 쪽을 택했습니다. 코드를 고치지 않고 닫을 수 있는 것(`brace-expansion` 등 lockfile 안의 전이 의존성)만 패치했습니다.
+- **`package-lock.json` 은 `dotenv` 추가분이 반영되어 있지 않습니다.** 잠금 파일을 갱신하면 npm이 2019년 형식(lockfileVersion 1)을 현행 형식으로 통째로 다시 써서, 실제 변경이 수천 줄 diff에 묻힙니다. `npm install` 은 정상 동작하지만 `npm ci` 는 실패합니다. **`npm install` 을 쓰세요.**
 - **테스트 코드가 없습니다.** 수업 실습 코드라 처음부터 없었습니다.
 - **일부 챕터는 실행되지 않습니다.** 위 [챕터 지도](#챕터-지도)의 상태 열과 각 README를 확인하세요. 고치지 않고 남겨 둔 이유는, 무엇이 왜 빠졌는지 아는 것 자체가 학습 자료로서 의미가 있기 때문입니다. 각 README에 **직접 고쳐 보는 연습 과제**로 정리했습니다.
 

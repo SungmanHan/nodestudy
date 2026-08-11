@@ -105,8 +105,8 @@ db.users.find({ name: "홍길동", grade: { $gt: 8 } })
 const mongoose = require("mongoose");
 module.exports = () => {
     const connect = () => {
-        mongoose.connect("mongodb://db:00000@localhostL15000/admin",{
-            adName:"db"
+        mongoose.connect(process.env.MONGO_URI,{
+            adName: process.env.MONGO_DB_NAME
         })
     }
 }
@@ -116,10 +116,10 @@ module.exports = () => {
 <summary>답 보기</summary>
 
 1. `connect` 를 **정의만 하고 호출하지 않습니다.** 아래에 `connect();` 가 있어야 합니다.
-2. 접속 문자열이 `localhostL15000` — 콜론(`:`)이 대문자 `L` 로 잘못 들어갔습니다.
-3. 옵션 이름이 `adName` — `dbName` 의 오타입니다.
+2. 옵션 이름이 `adName` — `dbName` 의 오타입니다. 오타난 옵션은 에러도 없이 조용히 무시되므로, 연결은 되는데 엉뚱한 DB를 쓰게 됩니다.
+3. `app.js` 가 `require("./schemas")()` 를 하지 않아, 위 둘을 고쳐도 호출되지 않습니다. `13.sns/app.js` 와 비교해 보세요.
 
-추가로 `app.js` 가 `require("./schemas")()` 를 하지 않아, 고쳐도 호출되지 않습니다. `13.sns/app.js` 와 비교해 보세요.
+> 원래 접속 문자열은 `"mongodb://db:00000@localhostL15000/admin"` 이었습니다. 여기에도 오타가 있었습니다 — 포트 앞 콜론(`:`)이 대문자 `L` 로 들어가 `localhostL15000` 이 되어 있었죠. 지금은 계정 정보를 소스에서 걷어내면서 `.env` 로 옮겨져 사라졌습니다.
 </details>
 
 ## 지금은 이렇게 바뀌었습니다
@@ -136,7 +136,7 @@ module.exports = () => {
 ## 연습 과제
 
 1. `mongodb-cheatsheet.md` 의 CRUD 명령을 `mongosh` 에서 전부 따라 해 보세요.
-2. `schemas/index.js` 의 결함 3개를 고치고, `app.js` 에서 호출해 실제로 연결되는지 확인하세요. 연결 성공/실패 로그를 남기세요.
+2. `schemas/index.js` 의 결함을 고치고, `app.js` 에서 호출해 실제로 연결되는지 확인하세요. 연결 성공/실패 로그를 남기세요.
 3. `schemas/user.js` 를 채우세요. `13.sns/schemas/user.js` 를 참고하되, 먼저 직접 써 보세요.
 4. `routes/users.js` 에 목록 조회와 등록 라우트를 붙여 이 챕터만으로 CRUD가 돌게 만드세요.
 5. `db.users.find({ grade: { $gt: 8 } })` 를 SQL로 옮기면 어떻게 되나요? 반대로 `SELECT ... ORDER BY grade DESC LIMIT 5` 는 MongoDB로 어떻게 쓰나요?

@@ -1,3 +1,5 @@
+require("dotenv").config(); // .env 파일의 값을 process.env 로 읽어들인다
+
 /* npm moduel */
 const express = require("express");
 const app = express();

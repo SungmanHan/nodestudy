@@ -1,3 +1,5 @@
+require("dotenv").config(); // .env 파일의 값을 process.env 로 읽어들인다
+
 var createError = require('http-errors');
 var express = require('express');
 var path = require('path');
@@ -29,7 +31,7 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser()); // 쿠키 사용
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(session({
-  secret: 'password!!',
+  secret: process.env.SESSION_SECRET,
   resave: false,
   saveUninitialized: true,
   store: new sessionStore()

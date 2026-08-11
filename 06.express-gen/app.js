@@ -1,3 +1,5 @@
+require("dotenv").config(); // .env 파일의 값을 process.env 로 읽어들인다
+
 var createError = require('http-errors'); // 외부 404 error를 찾는 것-mw
 var express = require('express'); 
 var fs = require('fs'); // node

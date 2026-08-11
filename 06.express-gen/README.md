@@ -4,14 +4,9 @@
 
 ## ⚠️ 실행되지 않습니다
 
-두 가지가 빠져 있습니다.
+`package.json` 의 시작 스크립트는 `node ./bin/www` 인데 **`bin/www` 가 저장소에 없습니다.** 되살리는 방법은 [실행 방법](#실행-방법)에 적었습니다.
 
-| 빠진 것 | 결과 |
-|---|---|
-| `bin/www` | `npm start` 가 `node ./bin/www` 를 실행하는데 파일이 없습니다 |
-| `config/config.json` | `models/index.js` 가 `require('../config/config.json')` 을 하는데 폴더가 없습니다 |
-
-되살리는 방법은 [실행 방법](#실행-방법)에 적었습니다. 참고할 `config.json` 은 `09.session/config/config.json` 에 있습니다.
+> `models/index.js` 가 찾던 `config/config.json` 도 원래 없었습니다. 지금은 `.env` 에서 값을 읽는 `config/config.js` 로 대체해 두었습니다.
 
 ## 학습 목표
 
@@ -25,7 +20,8 @@
 | 경로 | 역할 |
 |---|---|
 | `app.js` | 미들웨어 + 라우터 + `sequelize.sync()` |
-| `models/index.js` | 모델 자동 로더 — `config.json` 을 읽어 Sequelize 인스턴스를 만든다 |
+| `config/config.js` | 환경별 DB 설정 — `.env` 에서 값을 읽는다 |
+| `models/index.js` | 모델 자동 로더 — 위 설정을 읽어 Sequelize 인스턴스를 만든다 |
 | `models/User.js` | `user_seqs` 테이블 — `username` |
 | `models/Score.js` | 성적 테이블 ⚠️ **테이블 이름이 `User.js` 와 같습니다** (아래 참고) |
 | `routes/index.js` · `users.js` | 라우터 (generator 기본 상태) |
@@ -40,16 +36,7 @@
 cp -r 08.multer/bin 06.express-gen/bin
 ```
 
-**2) `config/config.json` 만들기**
-
-```bash
-mkdir -p 06.express-gen/config
-cp 09.session/config/config.json 06.express-gen/config/config.json
-```
-
-그다음 `config.json` 의 `password` 를 자기 환경에 맞게 고칩니다. (이 저장소에서는 접속정보를 `.env` 로 옮겼습니다 — `.env.example` 참고)
-
-**3) MySQL 준비 + 실행**
+**2) MySQL 준비 + 실행**
 
 ```bash
 docker run -d --name nodestudy-mysql -p 3307:3306 \
@@ -57,7 +44,8 @@ docker run -d --name nodestudy-mysql -p 3307:3306 \
 
 cd 06.express-gen
 npm install
-npm start        # http://127.0.0.1:3000
+cp .env.example .env     # DB 접속정보 입력
+npm start                # http://127.0.0.1:3000
 ```
 
 ## 짚고 갈 지점
@@ -101,12 +89,20 @@ fs.readdirSync(__dirname)
 
 ```js
 const env = process.env.NODE_ENV || 'development';
-const config = require(__dirname + '/../config/config.json')[env];
+const config = require(__dirname + '/../config/config')[env];
 ```
 
 같은 코드를 개발/테스트/운영에서 각각 다른 DB에 붙이는 표준 방법입니다. `NODE_ENV=production npm start` 로 띄우면 `production` 설정을 씁니다.
 
-**단, `config.json` 에 비밀번호를 적어 커밋하면 안 됩니다.** 이 저장소는 그래서 `.env` 로 옮겼습니다. `.env.example` 을 복사해 쓰세요.
+**원래는 `config/config.json` 이었습니다.** express-generator + sequelize-cli 조합의 관례입니다. 그런데 JSON에는 비밀번호를 문자열로 적는 수밖에 없고, 그러면 저장소에 그대로 커밋됩니다. 그래서 이 저장소는 `.js` 로 바꿔 `process.env` 에서 읽습니다 — JSON은 값을 계산할 수 없어 확장자를 바꿔야 했습니다.
+
+```js
+// config/config.js
+username: process.env.DB_USER,
+password: process.env.DB_PASSWORD,
+```
+
+`.env.example` 을 `.env` 로 복사해 값을 채우세요. `.env` 는 `.gitignore` 에 있어 커밋되지 않습니다.
 
 ## 알려진 결함
 
@@ -153,7 +149,7 @@ npm i morgan http-errors mysql2 rotating-file-stream multer express-session sess
 
 ## 연습 과제
 
-1. `bin/www` 와 `config/config.json` 을 되살려 서버를 띄우세요.
+1. `bin/www` 를 되살려 서버를 띄우세요.
 2. `models/Score.js` 의 테이블 이름을 `scores` 로 고치고, `kor` 외에 `eng`·`mat` 컬럼을 추가하세요.
 3. `models/index.js` 의 자동 로더 블록을 지우고 수동 `require` 방식만 남기세요. Sequelize 6로 올려도 동작하게 만드는 것이 목표입니다.
 4. `app.js` 의 중복된 `logger` 등록 중 하나를 정리하고, `express.static` 주석을 풀어 CSS가 적용되는지 확인하세요.

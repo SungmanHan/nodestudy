@@ -16,7 +16,7 @@
 |---|---|
 | `app.js` | 세션 미들웨어 설정 + `sequelize.sync()` |
 | `bin/www` | 서버 구동 (포트 3000) |
-| `config/config.json` | 환경별 DB 설정 |
+| `config/config.js` | 환경별 DB 설정 — `.env` 에서 값을 읽는다 |
 | `models/index.js` | 모델 로더 + `salt` 상수 |
 | `models/Users.js` | `members` 테이블 — `userid`(unique) / `userpw` / `username` |
 | `routes/users.js` | ★ 핵심 — 회원가입 · 로그인 · 로그아웃 |
@@ -109,20 +109,25 @@ var result = await Users.findOne({
 });
 ```
 
-> ⚠️ **이 방식은 지금 기준으로는 부족합니다.** 세 가지 문제가 있습니다.
-> 1. `salt` 가 `models/index.js` 에 `"20191201"` 로 **모든 사용자에게 동일**하게 박혀 있습니다. salt는 사용자마다 달라야 rainbow table을 막습니다.
+> ⚠️ **이 방식은 지금 기준으로는 부족합니다.** 두 가지 문제가 남아 있습니다.
+> 1. `salt` 가 **모든 사용자에게 동일**합니다 (원본 코드에는 `models/index.js` 에 `"20191201"` 로 박혀 있었고, 지금은 `.env` 로 옮겼지만 여전히 전역 고정값입니다). salt는 사용자마다 달라야 rainbow table을 막습니다.
 > 2. `sha512` 는 **너무 빠릅니다.** 빠르다는 건 공격자가 초당 수십억 번 시도할 수 있다는 뜻입니다. 비밀번호용 해시는 일부러 느려야 합니다.
-> 3. salt가 소스 코드에 있으므로 저장소가 유출되면 salt도 함께 유출됩니다.
 >
 > `07.node/02.crypto.js` 에서 배운 **`pbkdf2` + 사용자별 랜덤 salt** 가 올바른 방향입니다. 지금이라면 `bcrypt` 나 `argon2` 를 씁니다.
 
 ### 세션 secret도 소스에 있으면 안 된다
 
+원본 코드는 이랬습니다.
+
 ```js
 secret: 'password!!'
 ```
 
-이 값이 유출되면 **세션 쿠키를 위조**해 남의 계정으로 로그인할 수 있습니다. 환경 변수로 빼야 합니다 — 이 저장소는 `.env` 로 옮겼습니다.
+이 값이 유출되면 **세션 쿠키를 위조**해 남의 계정으로 로그인할 수 있습니다. 지금은 `.env` 에서 읽습니다.
+
+```js
+secret: process.env.SESSION_SECRET,
+```
 
 ## 알려진 결함
 
@@ -156,8 +161,8 @@ secret: 'password!!'
 ## 연습 과제
 
 1. `/login` 의 디버그 `console.log` 를 정리해, 비밀번호를 틀려도 서버가 죽지 않게 고치세요.
-2. `salt` 를 사용자마다 다른 랜덤 값으로 바꾸세요. `members` 테이블에 `salt` 컬럼을 추가하고, `07.node/modules/util-cryto.js` 를 참고해 `pbkdf2` 로 교체하세요.
-3. `secret` 을 `.env` 에서 읽도록 바꾸세요.
+2. `salt` 를 사용자마다 다른 랜덤 값으로 바꾸세요. `members` 테이블에 `salt` 컬럼을 추가하고, `07.node/modules/util-cryto.js` 를 참고해 `pbkdf2` 로 교체하세요. 그러면 `.env` 의 `PASSWORD_SALT` 는 필요 없어집니다.
+3. 쿠키에 `httpOnly` / `sameSite` 옵션을 걸고, 개발자 도구에서 `document.cookie` 로 세션 쿠키가 읽히는지 확인하세요 (걸기 전후 비교).
 4. 로그인해야만 들어갈 수 있는 `/users/mypage` 를 만드세요. **로그인 검사를 미들웨어로 분리**해서 여러 라우트에 재사용하는 것이 핵심입니다.
 5. 회원가입 시 아이디 중복을 미리 검사해 사용자에게 안내하세요.
 6. 로그인 상태에서 개발자 도구로 `connect.sid` 쿠키를 지우고 새로고침하면 어떻게 되나요? `sessions/` 의 파일도 지우면요?

@@ -1,3 +1,5 @@
+require("dotenv").config(); // .env 파일의 값을 process.env 로 읽어들인다
+
 const express = require("express");
 const bodyParser = require("body-parser")
 const app = express();
@@ -5,11 +7,11 @@ const port = 3000;
 
 const mysql      = require('mysql');
 const connection = mysql.createConnection({
-  host     : 'localhost',
-  port     : 3307,
-  user     : 'root',
-  password : 'qwer1234',
-  database : 'node_db',
+  host     : process.env.DB_HOST,
+  port     : Number(process.env.DB_PORT),
+  user     : process.env.DB_USER,
+  password : process.env.DB_PASSWORD,
+  database : process.env.DB_NAME,
   onnectionLimit : 100,
   waitForConnections : true,
   queueLimit :0,

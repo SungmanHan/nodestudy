@@ -21,6 +21,7 @@
 | `views/multer-list.pug` | 업로드 폼 |
 | `views/layout/multer.pug` · `inc/header.pug` | 레이아웃 |
 | `public/uploads/` | 업로드 저장 위치 (내용은 `.gitignore` 처리) |
+| `config/config.js` | 환경별 DB 설정 — `.env` 에서 값을 읽는다 |
 | `modules/sequelize-conn.js` · `models/index.js` | Sequelize 설정 — **현재 어떤 라우터도 쓰지 않음** |
 
 ## 실행 방법
@@ -133,7 +134,7 @@ function getPaht(){
 |---|---|
 | `routes/multer.js` | 파일이 걸러졌을 때 `req.file` 이 `undefined` 인데 `req.file.filename` 을 읽습니다 → **허용되지 않은 확장자를 올리면 서버가 죽습니다** |
 | `modules/multer-conn.js` `getPaht()` | `mkdirSync` 에 `{recursive:true}` 가 없어, `uploads/` 폴더 자체가 없으면 실패합니다 |
-| `models/index.js` | `../config/config.json` 을 `require` 하는데 폴더가 없습니다. 다만 어떤 라우터도 이 파일을 쓰지 않아 실행에는 지장이 없습니다 |
+| `models/index.js` | 모델 파일이 하나도 없어 빈 `db` 객체만 만듭니다. 어떤 라우터도 이 파일을 쓰지 않습니다 (원래는 `../config/config.json` 을 `require` 하는데 그 파일이 없어 크래시했습니다 — 지금은 `.env` 를 읽는 `config/config.js` 로 대체) |
 | `package.json` | 의존성에 `"audit"` 이 들어 있습니다. `npm i audit` 을 잘못 실행해 들어간 **엉뚱한 패키지**입니다 |
 
 ## 지금은 이렇게 바뀌었습니다

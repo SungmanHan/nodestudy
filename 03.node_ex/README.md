@@ -4,7 +4,18 @@
 
 ## ⚠️ 실행 전에 알아 둘 것
 
-이 챕터는 **그대로는 실행되지 않습니다.** 수업이 진행되면서 코드가 `04.node_router` 로 옮겨 갔고, 그 과정에서 여기 남은 파일들이 반쪽이 되었습니다. 무엇이 왜 빠졌는지는 [알려진 결함](#알려진-결함)에 정리했습니다. 고치는 것 자체가 이 챕터의 연습 과제입니다.
+이 챕터의 두 서버 파일은 **그대로는 실행되지 않습니다.**
+
+```bash
+$ node app.js
+SyntaxError: Identifier 'age' has already been declared
+```
+
+`app.js` 는 **구문 오류라 파일이 파싱조차 되지 않습니다.** 실행이 안 되는 정도가 아니라 Node가 읽어들이지도 못합니다. `app-mysql.js` 는 문법은 멀쩡하지만 `require` 하는 모듈이 없습니다.
+
+수업이 진행되면서 코드가 `04.node_router` 로 옮겨 갔고, 그 과정에서 여기 남은 파일들이 반쪽이 된 것입니다. 무엇이 왜 빠졌는지는 [알려진 결함](#알려진-결함)에 정리했습니다. **고치는 것 자체가 이 챕터의 연습 과제입니다.**
+
+> 비동기 예제(`public/html/callback*.html`)와 `sql.md` 는 서버와 무관하게 그대로 볼 수 있습니다. 이 챕터의 학습 내용 절반은 거기 있습니다.
 
 ## 학습 목표
 
@@ -53,7 +64,7 @@ CREATE TABLE users (
 cd 03.node_ex
 npm install
 cp .env.example .env    # DB 접속정보 입력
-node app.js             # http://127.0.0.1:3000
+node app.js             # ⚠️ 지금은 SyntaxError 로 즉시 중단됩니다 — 연습 과제 2번을 먼저 하세요
 ```
 
 비동기 예제(`public/html/callback*.html`)는 서버 없이 브라우저로 열어 콘솔만 봐도 됩니다.
@@ -134,7 +145,8 @@ res.render("sql/list", {tit:"데이터 출력", datas: rows});
 
 | 위치 | 문제 |
 |---|---|
-| `app.js` `insertFn()` — `save` 분기 | `sqlVals = [username, age, wdate]` 에서 `username`·`wdate` 가 **정의되지 않았습니다.** 바로 위에서 읽은 건 `name` 인데 다른 이름을 씁니다. 아래 `save-pool` 분기의 `var` 변수가 호이스팅되어 `undefined` 로 들어갑니다 |
+| `app.js` `insertFn()` — **구문 오류** | `save` 분기의 `let age` 와 `save-pool` 분기의 `var age` 가 **같은 블록 안에서 충돌**합니다. `switch` 의 `case` 들은 별도 스코프가 아니라 하나의 블록을 공유하기 때문입니다. → `SyntaxError: Identifier 'age' has already been declared` 로 **파일 전체가 로드되지 않습니다** |
+| `app.js` `insertFn()` — `save` 분기 | 위 구문 오류를 고쳐도 남는 문제입니다. `sqlVals = [username, age, wdate]` 에서 `username`·`wdate` 가 **정의되지 않았습니다.** 바로 위에서 읽은 건 `name` 인데 다른 이름을 씁니다. 아래 `save-pool` 분기의 `var` 변수가 호이스팅되어 `undefined` 로 들어갑니다 |
 | `app.js` `insertFn()` — `save-pool` 분기 | `conn` 이 이 파일에 없습니다. `04.node_router/modules/mysql-conn.js` 에 있는 것을 쓰려던 흔적입니다 |
 | `app.js` `/pug/include` 라우트 | `res.render("include", ...)` 를 호출하는데 `views/include.pug` 가 없습니다 (`block.pug` 만 있음) |
 | `app-mysql.js` | `./modules/mysql-conn`, `./modules/util-loc`, `./modules/util-doc` 를 `require` 하는데 **이 챕터에 `modules/` 폴더가 없습니다.** 세 파일 모두 `04.node_router/modules/` 에 있습니다 |
@@ -148,7 +160,7 @@ res.render("sql/list", {tit:"데이터 출력", datas: rows});
 ## 연습 과제
 
 1. `app-mysql.js` 가 동작하도록 `04.node_router/modules/` 의 세 파일을 이 챕터로 가져오거나, `require` 경로를 고치세요.
-2. `app.js` 의 `insertFn` `save` 분기에서 변수 이름을 맞춰 저장이 되게 고치세요.
+2. `app.js` 의 구문 오류를 고치세요. `switch` 의 각 `case` 를 중괄호 `{ }` 로 감싸 블록 스코프를 만들어 주는 것이 정석입니다. 고친 뒤 `node --check app.js` 로 확인하세요. 이어서 `save` 분기의 변수 이름을 맞춰 저장이 되게 하세요.
 3. `views/include.pug` 를 만들어 `/pug/include` 라우트를 살리세요. pug의 `include` 문법을 찾아 쓰세요.
 4. `callback.html` 의 로직을 `callback_promise.html` → `callback_async.html` 순으로 직접 다시 써 보세요 (파일을 보지 말고).
 5. `create_date` 를 하드코딩된 문자열 대신 MySQL `NOW()` 로 바꾸세요.
